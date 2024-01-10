@@ -20,4 +20,6 @@ public class PocTemperaturaController {
     public ResponseEntity buscarTemperatura(){
         return ResponseEntity.ok(this.pocTemperaturaService.buscarTemperatura());
     }
+
+
 }

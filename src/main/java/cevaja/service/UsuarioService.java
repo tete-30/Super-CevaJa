@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class UsuarioService {
 
@@ -35,4 +37,39 @@ public class UsuarioService {
         }
     }
 
+    public Usuario buscarPeloLogin(String usernameLogin) {
+        return usuarioRepository.findByNome(usernameLogin);
+    }
+
+    public List<Usuario> buscarTodosUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    public Usuario removerPorLogin(String usernameLogin) {
+        Usuario usuarioRemoverPorLogin = usuarioRepository.findByUsernameLogin(usernameLogin);
+        if (usuarioRemoverPorLogin == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel remover um usuario inexistente. O usuario " + usernameLogin + " não existe no banco de dados.");
+        } else {
+            usuarioRepository.delete(usuarioRemoverPorLogin);
+        }
+        return usuarioRemoverPorLogin;
+    }
+
+
+    public Usuario alterarNomeESobrenome(Long id, Usuario usuario) {
+        Usuario usuarioParaAlterar = usuarioRepository.findById(id).get();
+        if (usuarioParaAlterar == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel alterar um usuario inexistente. O usuario " + usuario.getNome() + " não existe no banco de dados.");
+
+        } else {
+            usuarioParaAlterar.setNome(usuario.getNome());
+            usuarioParaAlterar.setSobrenome(usuario.getSobrenome());
+            usuarioRepository.save(usuarioParaAlterar);
+
+            return usuarioParaAlterar;
+        }
+
+
+    }
 }
+
