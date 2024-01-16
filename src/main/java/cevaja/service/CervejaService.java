@@ -1,7 +1,7 @@
 package cevaja.service;
 
 import cevaja.model.TipoCerveja;
-import cevaja.model.dto.converter.TipoCervejaDTO;
+import cevaja.model.dto.TipoCervejaDTO;
 import cevaja.repository.CervejaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,11 +27,11 @@ public class CervejaService {
     }
 
     public TipoCerveja buscarPeloNome(String nome) {
-        return cervejaRepository.findByNome(nome);
+        return cervejaRepository.findByNomeIgnoreCase(nome);
     }
 
     public TipoCerveja removerPeloNome(String nome) {
-        TipoCerveja tipoCervejaRemoverPleoNome = cervejaRepository.findByNome(nome);
+        TipoCerveja tipoCervejaRemoverPleoNome = cervejaRepository.findByNomeIgnoreCase(nome);
         if (tipoCervejaRemoverPleoNome == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel remover um tipo de cerveja inexistente. O tipo " + nome + " não existe no banco de dados.");
         } else{
@@ -41,7 +41,7 @@ public class CervejaService {
     }
 
     public TipoCerveja alterarValorTipoCerveja(String nome, BigDecimal valor) {
-        TipoCerveja cervejaParaAlterar = cervejaRepository.findByNome(nome);
+        TipoCerveja cervejaParaAlterar = cervejaRepository.findByNomeIgnoreCase(nome);
 
         if (cervejaParaAlterar == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Cerveja não encontrado: " + nome);

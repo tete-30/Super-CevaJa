@@ -24,10 +24,10 @@ public class UsuarioService {
     }
 
     public void adicionar(UsuarioRequestDTO usuarioRequestDTO) {
-        String nomeUsuarioAdicionado = usuarioRequestDTO.getNome();
-        Usuario usuarioExistente = buscarPeloNome(nomeUsuarioAdicionado);
+        String nomeUsuarioAdicionado = usuarioRequestDTO.getUsernameLogin();
+        Usuario usuarioExistente = buscarPeloLogin(nomeUsuarioAdicionado);
 
-        // Verificar se usuário existe
+
         if (usuarioExistente != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel adicionar um usuário repetido. O usuário "
                     + nomeUsuarioAdicionado + "já existe no banco de dados.");
@@ -38,7 +38,7 @@ public class UsuarioService {
     }
 
     public Usuario buscarPeloLogin(String usernameLogin) {
-        return usuarioRepository.findByNome(usernameLogin);
+        return usuarioRepository.findByUsernameLogin(usernameLogin);
     }
 
     public List<Usuario> buscarTodosUsuarios() {

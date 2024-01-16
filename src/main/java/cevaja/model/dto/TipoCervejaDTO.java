@@ -1,4 +1,4 @@
-package cevaja.model.dto.converter;
+package cevaja.model.dto;
 
 
 import lombok.Data;
